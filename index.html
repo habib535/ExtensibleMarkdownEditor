@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="lib/require.js"></script>
+    <script>
+        require(['src/MarkdownEditor', 'src/download'], function (MarkdownEditor, downloader) {
+            previewMarkDown = function () {
+                document.getElementById("mark-down-preview").innerHTML = generateContents('html');
+            }
+            downloadSchema = function (exportDropdown) {
+                let fileName = (new Date()).valueOf()
+                downloader(fileName, generateContents('html'))
+                //change back to original                
+                exportDropdown.selectedIndex = 0;
+            }
+            generateContents = function (type) {
+                let mdEditor = new MarkdownEditor(document.getElementById("mark-down-editor").value);
+                return mdEditor.export(type);
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <div class="mark-down-download-action">
+            <label>Select format to download</label>
+            <select onchange="downloadSchema(this)">
+                <option>Export Type</option>
+                <option>HTML</option>
+                <option>Mediawiki</option>
+                <option>DOM exporter</option>
+            </select>
+        </div>
+        <button type="button" class="mark-down-preview-button" onclick="previewMarkDown()">Preview</button>
+    </div>
+    <div>
+        <textarea id="mark-down-editor" class="mark-down-editor">
+Global text
+# Section 1
+Some **(bold) introduction** to Section 1.
+## Section 1.1
+A text describing Section 1.1
+## Section 1.2
+A text describing Section 1.2
+## Section 1.2.1
+A text describing Section 1.2.1
+# Section 2
+An introduction to Section 2.
+# Section 3
+An introduction to Section 3.
+        </textarea>
+    </div>
+    <div id="mark-down-preview">
+    </div>
+</body>
+
+</html>
