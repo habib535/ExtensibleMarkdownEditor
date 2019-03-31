@@ -13,7 +13,7 @@
             }
             downloadSchema = function (exportDropdown) {
                 let fileName = (new Date()).valueOf()
-                downloader(fileName, generateContents('html'))
+                downloader(fileName, generateContents(exportDropdown.options[exportDropdown.selectedIndex].value))
                 //change back to original                
                 exportDropdown.selectedIndex = 0;
             }
@@ -31,9 +31,9 @@
             <label>Select format to download</label>
             <select onchange="downloadSchema(this)">
                 <option>Export Type</option>
-                <option>HTML</option>
-                <option>Mediawiki</option>
-                <option>DOM exporter</option>
+                <option value="html">HTML</option>
+                <option value="wiki">Mediawiki</option>
+                <option value="dom">DOM exporter</option>
             </select>
         </div>
         <button type="button" class="mark-down-preview-button" onclick="previewMarkDown()">Preview</button>
